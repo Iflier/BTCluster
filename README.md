@@ -19,6 +19,8 @@
 ## 即将打印的PCB
 ![PCB正面](https://github.com/Iflier/BTCluster/blob/master/images/PCB_front.PNG)
 ![PCB背面](https://github.com/Iflier/BTCluster/blob/master/images/PCB_back.PNG)
+## 3D 视图
+![3D模型](https://github.com/Iflier/BTCluster/blob/master/images/3D.PNG)
 
 # License
 GPL V3.0
