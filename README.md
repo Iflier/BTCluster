@@ -27,13 +27,17 @@
 第一个手工焊接的板子，原理图上的所有元件都已焊接。原理图上，部分功能设计的有冗余，考虑到不一定非得买到所有的元件，可以用一定的方式替代。既然它是最全的，把它配置为`Master` role。
 另外2个，很明显的是，部分预留的元件未焊接，焊接的共阳极`LED`不是很亮，但是不影响功能。其中又有一个蓝牙模块焊接的有些跑偏，也能用。
 1. 印制的PCB板
-![PCB空板]()
+![PCB空板](https://github.com/Iflier/BTCluster/blob/master/images/PCB%E7%A9%BA%E6%9D%BF.jpg)
 2. 已经焊接好的蓝牙模块
-![已经焊接好的模块]()
+![已经焊接好的模块](https://github.com/Iflier/BTCluster/blob/master/images/%E5%85%A8%E9%83%A8%E7%9A%84%E6%9D%BF%E5%AD%90.jpg)
+![](https://github.com/Iflier/BTCluster/blob/master/images/%E7%84%8A%E6%8E%A5%E5%A5%BD%E7%9A%84.jpg)
+![](https://github.com/Iflier/BTCluster/blob/master/images/%E7%84%8A%E6%8E%A5%E5%A5%BD%E7%9A%842.jpg)
+![](https://github.com/Iflier/BTCluster/blob/master/images/%E7%84%8A%E6%8E%A5%E5%A5%BD%E7%9A%843.jpg)
 3. 配置好的一主多从连接（当模块有连接时，`LINK`引脚输出低电平，反映到本模块上，表现为共阳极的`LED`会点亮一个）
-![一主多从配置]()
+![一主多从配置](https://github.com/Iflier/BTCluster/blob/master/images/%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F.jpg)
 4. 用于控制`PWM`波的频率和占空比
-![一种应用]()
+![一种应用](https://github.com/Iflier/BTCluster/blob/master/images/%E5%BA%94%E7%94%A8.jpg)
+![](https://github.com/Iflier/BTCluster/blob/master/images/%E5%BA%94%E7%94%A82.jpg)
 
 
 ## 应用场景
