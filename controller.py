@@ -1,18 +1,15 @@
 # -*- coding:utf-8 -*-
-from ast import Bytes
-import os
 import re
 import time
 import argparse
-import os.path
 import binascii
-from threading import Lock, Thread
+from threading import Lock
 
 import serial
 from serial import EIGHTBITS
 
 ap = argparse.ArgumentParser()
-ap.add_argument("-p", "--port", type=str, default="COM5", help="指定使用的串口号，默认为COM3")
+ap.add_argument("-p", "--port", type=str, default="COM5", help="指定使用的串口号，默认为COM5")
 ap.add_argument('-b', "--baudrate", type=int, default=115200, help="指定串口通信波特率")
 args =vars(ap.parse_args())
 
@@ -57,7 +54,13 @@ class Controller(object):
             元组，包括设备编号和响应字符串
         """
         deviceNum, *resp = content
-        respStr = "".join([chr(i) for i in resp])
+        if deviceNum < 8:
+            respStr = "".join([chr(i) for i in resp])
+        elif deviceNum == 83:
+            deviceNum = "*"
+            respStr = "".join([chr(i) for i in content])
+        else:
+            respStr = None
         return deviceNum, respStr
     
     def commandWriter(self):
@@ -77,7 +80,7 @@ class Controller(object):
                     commandHexStr = "".join([deviceNum, part2.encode().hex()])
                     self.device.write(bytes.fromhex(commandHexStr))
                 elif re.match(r"\S+", part2):
-                    # 读取当前配置
+                    # 读取当前配置，主要是 read 命令
                     commandHexStr = "".join([deviceNum, part2.lower().encode().hex()])
                     self.device.write(bytes.fromhex(commandHexStr))
                 else:
@@ -91,7 +94,8 @@ class Controller(object):
             while self.device.in_waiting:
                 result = self.device.readline()
                 slaveNum, respStr = self.decodeHex2Str(result)
-                print("Response from slave {0} ->: {1}".format(slaveNum, respStr), end="")
+                if respStr:
+                    print("Response from slave {0} ->: {1}".format(slaveNum, respStr), end="")
         self.device.close()
 
 
