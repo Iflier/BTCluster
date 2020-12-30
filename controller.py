@@ -27,7 +27,7 @@ class DeviceInstance(object):
         super().__init__()
         self.port = port
         self.baudrate = baudrate
-        self.device = serial.Serial(port=self.port, baudrate=self.baudrate, bytesize=EIGHTBITS, write_timeout=5.0)
+        self.device = serial.Serial(port=self.port, baudrate=self.baudrate, bytesize=EIGHTBITS, write_timeout=3.0)
     
     def getDevice(self):
         return self.device
@@ -44,6 +44,20 @@ class Controller(object):
     def __init__(self, device):
         super().__init__()
         self.device = device
+    
+    def readOutputBuffer(self, device):
+        """有时候断开重连或者有新的设备加入，master 会打印一些相关信息出来。本方法是用于读取 master 的输入（从连接的计算机的USB端口看）缓冲（buffer）中的内容
+        params:
+            device: 一个串口实例
+        return:
+            None
+        """
+        if device.in_waiting:
+            lines = device.readlines()
+            for line in lines:
+                part, part2 = self.decodeHex2Str(line)
+                if part2:
+                    print("{0}\t{1}".format(part, part2))
     
     def decodeHex2Str(self, content):
         """
@@ -66,6 +80,8 @@ class Controller(object):
     def commandWriter(self):
         while True:
             command = input("Command ->: ").upper()
+            # 在等待命令的时候，master 可能会有状态变化，产生输出
+            self.readOutputBuffer()
             if re.search(r"\d+,\w+", command):
                 deviceNum, part2 = command.split(',')
                 deviceNum = deviceNum.zfill(2)
