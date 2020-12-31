@@ -45,15 +45,15 @@ class Controller(object):
         super().__init__()
         self.device = device
     
-    def readOutputBuffer(self, device):
+    def readOutputBuffer(self):
         """有时候断开重连或者有新的设备加入，master 会打印一些相关信息出来。本方法是用于读取 master 的输入（从连接的计算机的USB端口看）缓冲（buffer）中的内容
         params:
-            device: 一个串口实例
+            None
         return:
             None
         """
-        if device.in_waiting:
-            lines = device.readlines()
+        if self.device.in_waiting:
+            lines = self.device.readlines()
             for line in lines:
                 part, part2 = self.decodeHex2Str(line)
                 if part2:
